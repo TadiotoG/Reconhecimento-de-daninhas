@@ -1,0 +1,14 @@
+Para gerar loc aleatorias, faz a media do tamanho das daninhas para toda a seq e varia +20px e -20px...
+
+Para cada Imagem é gerado um exemplar de pastagem.
+
+Ao realizar um teste simples, tentei utilizar as imagens 1920x1080, e faltou memória RAM, qual tamanho utilizar ?
+
+Tamanho das imagens, "by_the_smallest" está satisfatório, ou deveria ser maior ?
+
+Como dividir treino, teste e validação ? 50, 25, 25
+E fazer exeperimentação, utilizando as imagens de diferentes regiões como treino, val e teste
+
+Imagenet, GoogleNet
+
+Procurar quais dimensoes sao utilizadas...
