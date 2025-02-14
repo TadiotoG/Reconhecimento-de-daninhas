@@ -6,10 +6,7 @@ import tensorflow as tf
 from tensorflow.keras import layers,models
 from tensorflow import keras
 from PIL import Image
-from collections import Counter
 
-import torch
-import torchvision
 import torchvision.transforms as transforms
 import torch.nn as nn
 import torch.nn.functional as F
@@ -18,6 +15,12 @@ import xmltodict
 import cv2
 from PIL import Image
 from GoogleNetFunc import GoogLeNet
+
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
+import numpy as np
 
 img_width = 224
 img_height = 224
@@ -167,15 +170,11 @@ for i in range(len(list_of_pasts)):
 		model = GoogLeNet() 
 		model.summary()
 
-		from sklearn.metrics import classification_report
-		from sklearn.metrics import confusion_matrix
-		from sklearn.metrics import accuracy_score
-		import numpy as np
-
 		my_dict = {
 			"Train":[],
 			"Test":[],
 			str(str(img_width) + "_" + flag + "_AC"): [],
+			"F1":[],
 			"EPOCH":[],
 			"SENS": [],
 			"ESP": []
@@ -183,7 +182,7 @@ for i in range(len(list_of_pasts)):
 
 		for x in range(6):
 			epochs_num = 5+x*2
-			print("Onde estou -> ", epochs_num)
+			# print("Onde estou -> ", epochs_num)
 			model = GoogLeNet() 
 			model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy', 'accuracy', 'accuracy'])
 			model.fit(x_train, y_train, epochs=epochs_num)
@@ -198,11 +197,10 @@ for i in range(len(list_of_pasts)):
 			my_dict["Train"].append(train[0])
 			my_dict["Test"].append(test[0])
 			my_dict[str(str(img_width) + "_" + flag + "_AC")].append(accuracy_score(Y_test, answer_2))
+			my_dict["F1"].append(f1_score(Y_test, answer_2))
 			my_dict["EPOCH"].append(epochs_num)
 			my_dict["SENS"].append((TP/(TP+FN)))
 			my_dict["ESP"].append((TN/(FP+TN)))
-
-		import pandas as pd
 
 		my_dict = pd.DataFrame(my_dict)
 
