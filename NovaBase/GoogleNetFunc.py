@@ -29,7 +29,7 @@ def Inception_block(input_layer, f1, f2_conv1, f2_conv3, f3_conv1, f3_conv5, f4)
 
 	return output_layer
 
-def GoogLeNet():
+def GoogLeNet(img_width, img_height):
 	# input layer 
 	input_layer = Input(shape = (img_width, img_height, 3))
 

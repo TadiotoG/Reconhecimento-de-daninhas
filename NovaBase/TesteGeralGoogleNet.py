@@ -121,13 +121,13 @@ for i in range(len(list_of_pasts)):
 		train = list_of_pasts[i]
 		test = list_of_pasts[j]
 
-		for i in range(train[1]+1):
-			x_aux, y_aux = get_arrays_from_past_and_seq(train[0], i)
+		for k in range(train[1]+1):
+			x_aux, y_aux = get_arrays_from_past_and_seq(train[0], k)
 			x_train.extend(x_aux)
 			y_train.extend(y_aux)
 
-		for i in range(test[1]+1):
-			x_aux, y_aux = get_arrays_from_past_and_seq(test[0], i)
+		for l in range(test[1]+1):
+			x_aux, y_aux = get_arrays_from_past_and_seq(test[0], l)
 			x_test.extend(x_aux)
 			y_test.extend(y_aux)
 
@@ -140,8 +140,8 @@ for i in range(len(list_of_pasts)):
 
 		total_pos = 0
 		total_neg = 0
-		for i in range(train[1]+1):
-			p, n = get_number_of_positives_and_negatives(train[0], i)
+		for m in range(train[1]+1):
+			p, n = get_number_of_positives_and_negatives(train[0], m)
 			total_pos += p
 			total_neg += n
 			#print(i, " = ", p, "  ", n)
@@ -153,8 +153,8 @@ for i in range(len(list_of_pasts)):
 
 		total_pos = 0
 		total_neg = 0
-		for i in range(test[1]+1):
-			p, n = get_number_of_positives_and_negatives(test[0], i)
+		for n in range(test[1]+1):
+			p, n = get_number_of_positives_and_negatives(test[0], n)
 			total_pos += p
 			total_neg += n
 			#print(i, " = ", p, "  ", n)
@@ -167,7 +167,7 @@ for i in range(len(list_of_pasts)):
 		print(x_test.shape)
 		# (580, 1200, 1920, 3)
 
-		model = GoogLeNet() 
+		model = GoogLeNet(img_width=img_width, img_height=img_height) 
 		model.summary()
 
 		my_dict = {
@@ -183,9 +183,9 @@ for i in range(len(list_of_pasts)):
 		for x in range(6):
 			epochs_num = 5+x*2
 			# print("Onde estou -> ", epochs_num)
-			model = GoogLeNet() 
+			model = GoogLeNet(img_width=img_width, img_height=img_height) 
 			model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy', 'accuracy', 'accuracy'])
-			model.fit(x_train, y_train, epochs=epochs_num)
+			model.fit(x_train, y_train, epochs=1)
 
 			Y_test = []
 			answer = model.predict(x_test)
@@ -207,12 +207,12 @@ for i in range(len(list_of_pasts)):
 		train_name = ""
 		test_name = ""
 
-		for i in train[0]:
-			if i.isalpha() or i.isnumeric() or i == "_":
-				train_name += i
+		for h in train[0]:
+			if h.isalpha() or h.isnumeric() or h == "_":
+				train_name += h
 
-		for i in test[0]:
-			if i.isalpha() or i.isnumeric() or i == "_":
-				test_name += i
+		for g in test[0]:
+			if g.isalpha() or g.isnumeric() or g == "_":
+				test_name += g
 
 		my_dict.to_csv("Result_"+ str(img_width) + "_" + flag + train_name + "_" + test_name + ".csv", index=False)
