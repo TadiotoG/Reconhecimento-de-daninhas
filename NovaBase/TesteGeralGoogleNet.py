@@ -106,9 +106,16 @@ past_and_last_seq_2 = ("RumexWeeds/20210807_lundholm/seq", 28)
 past_and_last_seq_3 = ("RumexWeeds/20210908_lundholm/seq", 13)
 past_and_last_seq_4 = ("RumexWeeds/20211006_stengard/seq", 15)
 
-list_of_pasts = [past_and_last_seq_0, past_and_last_seq_1, past_and_last_seq_2, past_and_last_seq_3, past_and_last_seq_4]
+# list_of_pasts = [past_and_last_seq_0, past_and_last_seq_1, past_and_last_seq_2, past_and_last_seq_3, past_and_last_seq_4]
+list_of_pasts = [past_and_last_seq_2, past_and_last_seq_3, past_and_last_seq_4]
 
-for i in range(len(list_of_pasts)):
+# model = GoogLeNet(img_width=img_width, img_height=img_height) 
+# model.summary()
+
+# print("Modelo - número de saídas:", len(model.outputs))
+# print("Formato da saída do modelo:", model.output)
+
+for i in range(0, len(list_of_pasts)):
 	for j in range(i+1, len(list_of_pasts)):
 		print("I = ", i, "  J = ", j)
 
@@ -131,88 +138,69 @@ for i in range(len(list_of_pasts)):
 			x_test.extend(x_aux)
 			y_test.extend(y_aux)
 
-		x_train = np.array(x_train)
-		y_train = np.array(y_train)
+		for aux in range(2):
+			if(aux == 1): # Inverte treino e teste, para que seja testado com I e J, ambos sendo treino e teste
+				save = x_train
+				x_train = x_test
+				x_test = save
 
-		x_test = np.array(x_test)
-		y_test = np.array(y_test)
+				save = y_train
+				y_train = y_test
+				y_test = save
 
+				train = list_of_pasts[j]
+				test = list_of_pasts[i]
 
-		total_pos = 0
-		total_neg = 0
-		for m in range(train[1]+1):
-			p, n = get_number_of_positives_and_negatives(train[0], m)
-			total_pos += p
-			total_neg += n
-			#print(i, " = ", p, "  ", n)
-		print(train[0])
-		print("Total treino = ", len(y_train))
-		print("Positives: ", total_pos)
-		print("Negatives: ", total_neg, "\n")
+			x_train = np.array(x_train)
+			y_train = np.array(y_train)
 
+			x_test = np.array(x_test)
+			y_test = np.array(y_test)
 
-		total_pos = 0
-		total_neg = 0
-		for n in range(test[1]+1):
-			p, n = get_number_of_positives_and_negatives(test[0], n)
-			total_pos += p
-			total_neg += n
-			#print(i, " = ", p, "  ", n)
-		print(test[0])
-		print("Total teste = ", len(y_test))
-		print("Positives: ", total_pos)
-		print("Negatives: ", total_neg, "\n")
+			my_dict = {
+				"Train":[],
+				"Test":[],
+				str(str(img_width) + "_" + flag + "_AC"): [],
+				"F1":[],
+				"EPOCH":[],
+				"SENS": [],
+				"ESP": []
+			}
 
-		print(x_train.shape)
-		print(x_test.shape)
-		# (580, 1200, 1920, 3)
+			for x in range(6):
+				epochs_num = 5+x*2
+				# print("Onde estou -> ", epochs_num)
+				model = GoogLeNet(img_width=img_width, img_height=img_height) 
+				model.compile(optimizer='adam', loss=['binary_crossentropy', 'binary_crossentropy', 'binary_crossentropy'], metrics=['accuracy', 'accuracy', 'accuracy'])
+				model.fit(x_train, [y_train, y_train, y_train], epochs=epochs_num) 
 
-		model = GoogLeNet(img_width=img_width, img_height=img_height) 
-		model.summary()
-
-		my_dict = {
-			"Train":[],
-			"Test":[],
-			str(str(img_width) + "_" + flag + "_AC"): [],
-			"F1":[],
-			"EPOCH":[],
-			"SENS": [],
-			"ESP": []
-		}
-
-		for x in range(6):
-			epochs_num = 5+x*2
-			# print("Onde estou -> ", epochs_num)
-			model = GoogLeNet(img_width=img_width, img_height=img_height) 
-			model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy', 'accuracy', 'accuracy'])
-			model.fit(x_train, y_train, epochs=1)
-
-			Y_test = []
-			answer = model.predict(x_test)
-			for elem in y_test:
-				Y_test.append(elem)
+				Y_test = []
+				answer = model.predict(x_test)
+				for elem in y_test:
+					Y_test.append(elem)
 				
-			answer_2 = np.argmax(answer[0], axis=1)
-			TN, FP, FN, TP = confusion_matrix(Y_test, answer_2).ravel()
-			my_dict["Train"].append(train[0])
-			my_dict["Test"].append(test[0])
-			my_dict[str(str(img_width) + "_" + flag + "_AC")].append(accuracy_score(Y_test, answer_2))
-			my_dict["F1"].append(f1_score(Y_test, answer_2))
-			my_dict["EPOCH"].append(epochs_num)
-			my_dict["SENS"].append((TP/(TP+FN)))
-			my_dict["ESP"].append((TN/(FP+TN)))
+				answer_2 = np.argmax(answer[0], axis=1)
 
-		my_dict = pd.DataFrame(my_dict)
+				TN, FP, FN, TP = confusion_matrix(Y_test, answer_2).ravel()
+				my_dict["Train"].append(train[0])
+				my_dict["Test"].append(test[0])
+				my_dict[str(str(img_width) + "_" + flag + "_AC")].append(accuracy_score(Y_test, answer_2))
+				my_dict["F1"].append(f1_score(Y_test, answer_2))
+				my_dict["EPOCH"].append(epochs_num)
+				my_dict["SENS"].append((TP/(TP+FN)))
+				my_dict["ESP"].append((TN/(FP+TN)))
 
-		train_name = ""
-		test_name = ""
+			my_dict = pd.DataFrame(my_dict)
 
-		for h in train[0]:
-			if h.isalpha() or h.isnumeric() or h == "_":
-				train_name += h
+			train_name = ""
+			test_name = ""
 
-		for g in test[0]:
-			if g.isalpha() or g.isnumeric() or g == "_":
-				test_name += g
+			for h in train[0]:
+				if h.isalpha() or h.isnumeric() or h == "_":
+					train_name += h
 
-		my_dict.to_csv("Result_"+ str(img_width) + "_" + flag + train_name + "_" + test_name + ".csv", index=False)
+			for g in test[0]:
+				if g.isalpha() or g.isnumeric() or g == "_":
+					test_name += g
+
+			my_dict.to_csv("Result_"+ str(img_width) + "_" + flag + train_name + "_" + test_name + ".csv", index=False)

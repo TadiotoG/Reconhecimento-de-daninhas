@@ -66,7 +66,7 @@ def GoogLeNet(img_width, img_height):
 	X1 = Flatten()(X1)
 	X1 = Dense(1024, activation = 'relu')(X1)
 	X1 = Dropout(0.7)(X1)
-	X1 = Dense(2, activation = 'softmax')(X1)
+	X1 = Dense(2, activation = 'sigmoid')(X1)
 
 	
 	# 4th Inception block
@@ -84,7 +84,7 @@ def GoogLeNet(img_width, img_height):
 	X2 = Flatten()(X2)
 	X2 = Dense(1024, activation = 'relu')(X2)
 	X2 = Dropout(0.7)(X2)
-	X2 = Dense(2, activation = 'softmax')(X2)
+	X2 = Dense(2, activation = 'sigmoid')(X2)
 	
 	
 	# 7th Inception block
@@ -107,7 +107,7 @@ def GoogLeNet(img_width, img_height):
 	X = Dropout(0.4)(X)
 
 	# output layer 
-	X = Dense(2, activation = 'softmax')(X)
+	X = Dense(2, activation = 'sigmoid')(X)
 	
 	# model
 	model = Model(input_layer, [X, X1, X2], name = 'GoogLeNet')

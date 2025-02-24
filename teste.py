@@ -1,3 +1,2 @@
-# Fala dele
-for i in range(15):
-    print(i)
+for x in range(6):
+    print(5+x*2)
