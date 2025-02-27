@@ -1,7 +1,4 @@
 Train,Test,224_Duplicated_AC,F1,EPOCH,SENS,ESP
-RumexWeeds/20210806_stengard/seq,RumexWeeds/20210806_hegnstrup/seq,0.5260960334029228,0.0,5,0.0,1.0
-RumexWeeds/20210806_stengard/seq,RumexWeeds/20210806_hegnstrup/seq,0.5260960334029228,0.0,7,0.0,1.0
-RumexWeeds/20210806_stengard/seq,RumexWeeds/20210806_hegnstrup/seq,0.5260960334029228,0.0,9,0.0,1.0
-RumexWeeds/20210806_stengard/seq,RumexWeeds/20210806_hegnstrup/seq,0.5260960334029228,0.0,11,0.0,1.0
-RumexWeeds/20210806_stengard/seq,RumexWeeds/20210806_hegnstrup/seq,0.5260960334029228,0.0,13,0.0,1.0
-RumexWeeds/20210806_stengard/seq,RumexWeeds/20210806_hegnstrup/seq,0.5260960334029228,0.0,15,0.0,1.0
+RumexWeeds/20210806_stengard/seq,RumexWeeds/20210806_hegnstrup/seq,0.47390396659707723,0.6430594900849859,5,1.0,0.0
+RumexWeeds/20210806_stengard/seq,RumexWeeds/20210806_hegnstrup/seq,0.47390396659707723,0.6430594900849859,10,1.0,0.0
+RumexWeeds/20210806_stengard/seq,RumexWeeds/20210806_hegnstrup/seq,0.47390396659707723,0.6430594900849859,15,1.0,0.0

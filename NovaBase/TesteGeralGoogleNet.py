@@ -106,8 +106,8 @@ past_and_last_seq_2 = ("RumexWeeds/20210807_lundholm/seq", 28)
 past_and_last_seq_3 = ("RumexWeeds/20210908_lundholm/seq", 13)
 past_and_last_seq_4 = ("RumexWeeds/20211006_stengard/seq", 15)
 
-# list_of_pasts = [past_and_last_seq_0, past_and_last_seq_1, past_and_last_seq_2, past_and_last_seq_3, past_and_last_seq_4]
-list_of_pasts = [past_and_last_seq_2, past_and_last_seq_3, past_and_last_seq_4]
+list_of_pasts = [past_and_last_seq_0, past_and_last_seq_1, past_and_last_seq_2, past_and_last_seq_3, past_and_last_seq_4]
+# list_of_pasts = [past_and_last_seq_3, past_and_last_seq_4]
 
 # model = GoogLeNet(img_width=img_width, img_height=img_height) 
 # model.summary()
@@ -167,11 +167,11 @@ for i in range(0, len(list_of_pasts)):
 				"ESP": []
 			}
 
-			for x in range(6):
-				epochs_num = 5+x*2
+			for x in range(3):
+				epochs_num = 5+x*5
 				# print("Onde estou -> ", epochs_num)
 				model = GoogLeNet(img_width=img_width, img_height=img_height) 
-				model.compile(optimizer='adam', loss=['binary_crossentropy', 'binary_crossentropy', 'binary_crossentropy'], metrics=['accuracy', 'accuracy', 'accuracy'])
+				model.compile(optimizer='adam', loss=['sparse_categorical_crossentropy', 'sparse_categorical_crossentropy', 'sparse_categorical_crossentropy'], metrics=['accuracy', 'accuracy', 'accuracy'])
 				model.fit(x_train, [y_train, y_train, y_train], epochs=epochs_num) 
 
 				Y_test = []

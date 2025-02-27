@@ -160,22 +160,26 @@ def plot_imgs(past, seq, destination_folder, width_avg, height_avg):
 			pass
 
 		x_min_past, y_min_past, x_max_past, y_max_past = generate_random_positions(1920, 1080, arr_of_limits_weeds, width_avg, height_avg)
-		cv2.rectangle(img, (x_min_past, y_min_past), (x_max_past, y_max_past), (255, 0, 0), 3)
+		# cv2.rectangle(img, (x_min_past, y_min_past), (x_max_past, y_max_past), (255, 0, 0), 3)
 		img_s = cv2.resize(img, (960, 540))
-		cv2.imshow(("Seq "+ str(i) + "  -  Imagem " + str(counter)), img_s) # Plota a imagem
+		cv2.imshow(("Seq "+ str(seq) + "  -  Imagem " + str(counter)), img_s) # Plota a imagem
 		cv2.waitKey(0)
 		counter+=1
 
 past_and_last_seq = []
-# past_and_last_seq.append(("RumexWeeds/20210806_hegnstrup/seq", 17))
-# past_and_last_seq.append(("RumexWeeds/20210806_stengard/seq", 20))
-# past_and_last_seq.append(("RumexWeeds/20210807_lundholm/seq", 28))
+past_and_last_seq.append(("RumexWeeds/20210806_hegnstrup/seq", 17))
+past_and_last_seq.append(("RumexWeeds/20210806_stengard/seq", 20))
+past_and_last_seq.append(("RumexWeeds/20210807_lundholm/seq", 28))
 past_and_last_seq.append(("RumexWeeds/20210908_lundholm/seq", 13))
-# past_and_last_seq.append(("RumexWeeds/20211006_stengard/seq", 15))
+past_and_last_seq.append(("RumexWeeds/20211006_stengard/seq", 15))
 
-for past in past_and_last_seq: # Para todas as pastas
-	for i in range(past[1]+1): # Para todas as sequencias
-		avg_x, avg_y = get_avg_from_weeds(past[0], i)
+# for past in past_and_last_seq: # Para todas as pastas
+# 	for i in range(past[1]+1): # Para todas as sequencias
 
-		print("X = ", avg_x, "  Y = ", avg_y)
-		plot_imgs(past[0], i, cutted_past_name, avg_x, avg_y)
+seq = 1 # past_n = 1 e seq = 2 e seq = 0 imagens "ruins"
+past_n = 1
+
+avg_x, avg_y = get_avg_from_weeds(past_and_last_seq[past_n][0], seq)
+
+# print("X = ", avg_x, "  Y = ", avg_y)
+plot_imgs(past_and_last_seq[past_n][0], seq, cutted_past_name, avg_x, avg_y)
