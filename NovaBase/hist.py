@@ -92,6 +92,7 @@ def get_hist(past, sequencia, flag_HSV = False):
         plt.plot(weed_hist_mean_r, color='red', label='Canal R')
 
     plt.legend()
+    plt.ylim([-500, 400000])
     plt.xlim([-2, 256])
 
     past_hist_mean_r = past_hist_r / past_counter
@@ -114,17 +115,45 @@ def get_hist(past, sequencia, flag_HSV = False):
 
     plt.legend()
     plt.xlim([-2, 256])
-    plt.ylim([-500, 45000])
+    plt.ylim([-500, 400000])
     plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
         
 
 past_and_last_seq = []
-past_and_last_seq.append(("RumexWeeds/20210806_hegnstrup/seq", 17))
+# past_and_last_seq.append(("RumexWeeds/20210806_hegnstrup/seq", 17))
 past_and_last_seq.append(("RumexWeeds/20210806_stengard/seq", 20))
 past_and_last_seq.append(("RumexWeeds/20210807_lundholm/seq", 28))
 past_and_last_seq.append(("RumexWeeds/20210908_lundholm/seq", 13))
 past_and_last_seq.append(("RumexWeeds/20211006_stengard/seq", 15))
 
-past_n = 0
-
-get_hist(past_and_last_seq[past_n][0], past_and_last_seq[past_n][1], True)
+for past_n in range(len(past_and_last_seq)):
+    get_hist(past_and_last_seq[past_n][0], past_and_last_seq[past_n][1], True)
